@@ -3,6 +3,7 @@
  * @file mergeSort.php
  * @author lurenzhong@xiaomi.com
  * @brief 归并排序(无序元素的递归分解->有序元素的逐层合并)
+ * 时间复杂度为O(nlogn)
  */
 
 /**
