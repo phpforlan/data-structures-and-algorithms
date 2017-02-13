@@ -67,5 +67,5 @@ class Heap
 $arr = [1,5,3,7,9,10,2,8];
 $heapObj = new Heap();
 $heapObj->init($arr, count($arr));
-print_r($arr);
+//print_r($arr);
 

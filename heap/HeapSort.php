@@ -16,25 +16,20 @@ function heapSort(&$arr)
       每次把堆顶(最大值)交换到堆尾,然后对去除堆尾的剩余元素初始化最大堆。重复该步骤
       这样每次最大值就放在堆尾了，完成了排序
      */
-    for($i = $len-1; $i>=0; $i--){
-
-        //交换堆顶与堆尾结点
-        $tmp = $arr[$i];
-        $arr[$i] = $arr[0];
-        $arr[0] = $tmp;
+    for($i = $len; $i>0; $i--){ //$i是数组要初始化最大堆的长度
 
         $heapObj = new Heap();
         $heapObj->init($arr, $i);
+
+        //交换堆顶与堆尾结点
+        $tmp = $arr[$i-1];
+        $arr[$i-1] = $arr[0];
+        $arr[0] = $tmp;
     }
 }
 
-/** 初始化一个最大堆 **/
-$arr = [1,8,2,6,3,0,7,5,4];
-$heapObj = new Heap();
-$heapObj->init($arr, count($arr));
 
-//print_r($arr);
-
+$arr = [1,8,3,6,0,2,7,4,5];
 /** 测试堆排序 **/
 heapSort($arr);
 print_r($arr);
