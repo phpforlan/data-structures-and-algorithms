@@ -12,10 +12,11 @@ class Heap
 {
     /**
      * 初始化最大堆-从最后一个非叶子结点开始
+     * @param array $arr 待调整数组
+     * @param int $len 参与调整的数组长度(有些元素可以不参与)
      */
-    public function init(&$arr)
+    public function init(&$arr,$len)
     {
-        $len = count($arr);
         $start = floor($len/2) - 1; //最后一个非叶子结点下标
         
         //从最后一个非叶子结点到根结点，依次调整
@@ -65,6 +66,6 @@ class Heap
 
 $arr = [1,5,3,7,9,10,2,8];
 $heapObj = new Heap();
-$heapObj->init($arr);
-//print_r($arr);
+$heapObj->init($arr, count($arr));
+print_r($arr);
 
