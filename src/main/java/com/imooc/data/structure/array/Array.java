@@ -1,5 +1,7 @@
 package com.imooc.data.structure.array;
 
+import java.util.Arrays;
+
 /**
  * 基于java静态数组，封装一个动态数组，提供更加丰富的功能
  */
@@ -37,7 +39,7 @@ public class Array<E> {
     /**
      * 向数组末尾添加一个元素
      *
-     * @param e
+     * @param e 时间复杂度: O(1)
      */
     public void addLast(E e) {
         add(size, e);
@@ -45,6 +47,7 @@ public class Array<E> {
 
     /**
      * 向数组头部添加一个元素
+     * 时间复杂度: O(n)
      *
      * @param e
      */
@@ -55,6 +58,7 @@ public class Array<E> {
 
     /**
      * 向数组中的指定索引位置插入一个元素
+     * 时间复杂度: O(n/2) => O(n)
      *
      * @param index
      * @param e
@@ -151,6 +155,30 @@ public class Array<E> {
         }
 
         return -1;
+    }
+
+
+    /**
+     * 查询元素e在数组中的所有索引
+     *
+     * @param e
+     * @return
+     */
+    public int[] findAll(E e) {
+
+        int[] result = new int[size];
+
+        int k = 0;
+        for (int i = 0; i < size; i++) {
+            if (data[i] == e) {
+                result[k] = i;
+                k++;
+            }
+        }
+
+        result = Arrays.copyOf(result,k); //数组缩容
+
+        return result;
     }
 
 

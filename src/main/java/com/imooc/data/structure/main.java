@@ -14,8 +14,8 @@ public class main {
         myArr.addLast(3);
         myArr.addLast(10);
         myArr.addLast(3);
-        myArr.remove(0);
-
+        int[] result = myArr.findAll(3);
+        
         System.out.println(myArr);
     }
 
