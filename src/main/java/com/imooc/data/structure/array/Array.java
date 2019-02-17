@@ -40,11 +40,6 @@ public class Array<E> {
      * @param e
      */
     public void addLast(E e) {
-
-        if (size == data.length) {
-            throw new IllegalArgumentException("addLast failed, Array is full.");
-        }
-
         add(size, e);
     }
 
@@ -67,11 +62,11 @@ public class Array<E> {
     public void add(int index, E e) {
 
         if (size == data.length) {
-            throw new IllegalArgumentException("add failed, Array is full.");
+            resize(2 * data.length); //扩容
         }
 
         if (index < 0 || index > size) {
-            throw new IllegalArgumentException("add failed, index is wrong.");
+            throw new IllegalArgumentException("get failed, index is illegal");
         }
 
         //把index之后的所有元素后移一位(含index)
@@ -81,6 +76,22 @@ public class Array<E> {
 
         data[index] = e;
         size++;
+    }
+
+
+    /**
+     * 按照指定capacity，给数组动态伸缩
+     *
+     * @param newCapacity
+     */
+    private void resize(int newCapacity) {
+        E[] newData = (E[]) new Object[newCapacity];
+
+        for (int i = 0; i < size; i++) { //原来数组元素复制到新数组中
+            newData[i] = data[i];
+        }
+
+        data = newData;
     }
 
     /**
@@ -158,9 +169,13 @@ public class Array<E> {
         for (int i = index + 1; i < size; i++) {
             data[i - 1] = data[i];
         }
-        data[size - 1] = null; //loitering objects != memory leak
 
+        data[size - 1] = null; //loitering objects != memory leak
         size--;
+
+        if (size == data.length / 2) { //缩小容量
+            resize(data.length / 2);
+        }
 
         return data[index];
     }
