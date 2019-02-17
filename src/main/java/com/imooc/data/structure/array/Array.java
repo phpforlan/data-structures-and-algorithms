@@ -159,7 +159,7 @@ public class Array<E> {
 
 
     /**
-     * 查询元素e在数组中的所有索引
+     * 查询元素e在数组中的所有索引，如果不存在，则返回[]
      *
      * @param e
      * @return
@@ -209,7 +209,7 @@ public class Array<E> {
     }
 
     /**
-     * 删除数组中的某个元素
+     * 删除数组中的某个元素(只删除一个)
      *
      * @param e
      */
@@ -223,6 +223,27 @@ public class Array<E> {
         }
 
         return false;
+    }
+
+
+    /**
+     * 删除数组中所有的指定元素
+     *
+     * @param e
+     * @return
+     */
+    public boolean removeAllElement(E e) {
+
+        int[] indexArr = findAll(e);
+
+        System.out.println(indexArr);
+
+        for (int index : indexArr) {
+            System.out.println(index);
+            //remove(index);
+        }
+
+        return indexArr.length == 0;
     }
 
     /**
