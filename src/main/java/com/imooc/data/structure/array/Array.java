@@ -176,7 +176,7 @@ public class Array<E> {
             }
         }
 
-        result = Arrays.copyOf(result,k); //数组缩容
+        result = Arrays.copyOf(result, k); //数组缩容
 
         return result;
     }
@@ -201,7 +201,7 @@ public class Array<E> {
         data[size - 1] = null; //loitering objects != memory leak
         size--;
 
-        if (size == data.length / 2) { //缩小容量
+        if (size == data.length / 4) { //缩小容量(lazy策略)
             resize(data.length / 2);
         }
 
