@@ -11,97 +11,50 @@ import com.imooc.data.structure.array.Array;
  */
 public class LoopQueue<E> implements Queue<E> {
 
-    private Array<E> array;
+    private E[] data;
 
-    private int front = 0; //队首索引
+    private int front, tail;
 
-    private int tail = 0; //队尾索引(队列非空时，为队尾元素后面一个位置)
+    private int size;
 
     public LoopQueue(int capacity) {
-        array = new Array<>(capacity);
+        data = (E[]) new Object[capacity + 1];
+        front = 0;
+        tail = 0;
+        size = 0;
     }
 
     public LoopQueue() {
-        array = new Array<>();
+        this(10);
     }
+
+    public int getCapacity() { //队列设计会浪费一个空间
+        return data.length - 1;
+    }
+
 
     @Override
     public int getSize() {
-        return array.getSize();
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        return array.isEmpty();
+        return front == tail;
     }
 
-
-    /**
-     * 入队
-     *
-     * @param e
-     */
     @Override
     public void enqueue(E e) {
 
-        int tailNext = (tail + 1) % array.getCapacity(); //队尾索引的下一个位置
-
-        //校验队列是否已满
-        if (tailNext == front) {
-            throw new IllegalArgumentException("queue is full. size:" + array.getSize() + ", capacity:" + array.getCapacity());
-        }
-
-        array.add(tail, e);
-        tail = tailNext;
     }
 
-
-    /**
-     * 出队
-     *
-     * @return
-     */
     @Override
     public E dequeue() {
-
-        //校验队列是否为空
-        if (front == tail) {
-            throw new IllegalArgumentException("queue is empty");
-        }
-
-        int tailPrevious;
-        if (tail - 1 < 0) {
-            tailPrevious = array.getCapacity() - 1;
-        } else {
-            tailPrevious = (tail - 1);
-        }
-
-        tail = tailPrevious;
-        return array.remove(tailPrevious);
+        return null;
     }
 
     @Override
     public E getFront() {
-        return array.get(front);
+        return null;
     }
-
-    @Override
-    public String toString() {
-
-        StringBuilder res = new StringBuilder();
-        res.append("top queue: [");
-
-        for (int i = 0; i < array.getSize(); i++) {
-            res.append(array.get(i));
-
-            if (i != array.getSize() - 1) {
-                res.append(", ");
-            }
-        }
-
-        res.append("] tail");
-
-        return res.toString();
-    }
-    
 }
