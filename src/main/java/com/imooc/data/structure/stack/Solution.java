@@ -43,6 +43,8 @@ public class Solution {
 
             if (item == '(' || item == '{' || item == '[') {
                 stack.push(s.charAt(i));
+            } else if (stack.isEmpty()) {
+                return false;
             } else if (item == ')' && !stack.isEmpty() && stack.pop() != '(') {
                 return false;
             } else if (item == '}' && !stack.isEmpty() && stack.pop() != '{') {
@@ -50,6 +52,10 @@ public class Solution {
             } else if (item == ']' && !stack.isEmpty() && stack.pop() != '[') {
                 return false;
             }
+        }
+
+        if (!stack.isEmpty()) {
+            return false;
         }
 
         return true;
