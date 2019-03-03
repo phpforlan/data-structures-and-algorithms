@@ -128,7 +128,7 @@ public class Array<E> {
      * @return
      */
     public E getFirst() {
-        
+
         return get(0);
     }
 
@@ -213,6 +213,9 @@ public class Array<E> {
             throw new IllegalArgumentException("del failed, index is illegal");
         }
 
+        //记录要删除元素的值
+        E delElement = data[index];
+
         //从index后的元素开始，依次往前移动一位(不含index)
         for (int i = index + 1; i < size; i++) {
             data[i - 1] = data[i];
@@ -225,7 +228,7 @@ public class Array<E> {
             resize(data.length / 2);
         }
 
-        return data[index];
+        return delElement;
     }
 
     /**
@@ -278,7 +281,7 @@ public class Array<E> {
     /**
      * 删除末尾元素
      *
-     * @return
+     * @return 末尾元素
      */
     public E removeLast() {
         return remove(size - 1);
