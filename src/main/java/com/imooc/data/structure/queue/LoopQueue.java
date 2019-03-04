@@ -5,7 +5,7 @@ import com.imooc.data.structure.array.Array;
 /**
  * 循环队列(front=tail，则表示队列为空。(tail+1)%c=front，则表示队列满了)
  * <p>
- * tail表示下一个要入队元素放置的位置索引
+ * tail表示下一个要入队元素存放的位置索引
  *
  * @param <E>
  */
@@ -53,7 +53,7 @@ public class LoopQueue<E> implements Queue<E> {
 
         //校验队列是否已满
         if ((tail + 1) % data.length == front) {
-            throw new IllegalArgumentException("queue is full, size:" + size + "capacity:" + getCapacity());
+            resize(getCapacity() * 2); //扩容X2
         }
 
         data[tail] = e;
@@ -75,13 +75,13 @@ public class LoopQueue<E> implements Queue<E> {
             throw new IllegalArgumentException("queue is empty");
         }
 
-        E element = data[front];
+        E ret = data[front];
 
         data[front] = null;
         front = (front + 1) % data.length; //front向前移动一位
         size--;
 
-        return element;
+        return ret;
     }
 
 
@@ -89,17 +89,18 @@ public class LoopQueue<E> implements Queue<E> {
     public String toString() {
 
         StringBuilder res = new StringBuilder();
-        res.append("queue top [");
 
-        for (int i = front; i < tail; i++) {
-            res.append(i);
+        res.append("queue front [");
 
-            if (i != tail - 1) {
+        for (int i = front; i != tail; i = (i + 1) % data.length) {
+            res.append(data[i]);
+
+            if ((i + 1) % data.length != tail) { //队尾元素
                 res.append(", ");
             }
         }
 
-        res.append("] tail");
+        res.append("]");
 
         return res.toString();
     }
@@ -115,6 +116,26 @@ public class LoopQueue<E> implements Queue<E> {
         return data[front];
     }
 
+
+    /**
+     * 队列扩容
+     *
+     * @param newCapacity 新容量
+     */
+    private void resize(int newCapacity) {
+
+        E[] newData = (E[]) new Object[newCapacity + 1];
+
+        for (int i = 0; i < size; i++) { //从索引0开始填充新data
+
+            newData[i] = data[(i + front) % data.length]; //从i开始偏移front个位置
+        }
+
+        data = newData;
+        front = 0;
+        tail = size;
+    }
+
     public static void main(String[] args) {
 
         LoopQueue<Integer> loopQueue = new LoopQueue<>();
@@ -125,11 +146,13 @@ public class LoopQueue<E> implements Queue<E> {
         }
 
         System.out.println("start dequeue...");
+        loopQueue.dequeue();
+        System.out.println(loopQueue);
 
-        for (int j = 0; j < 5; j++) {
-            loopQueue.dequeue();
-            System.out.println(loopQueue);
+        for (int j = 0; j < 7; j++) {
+            loopQueue.enqueue(j);
         }
+        System.out.println(loopQueue);
 
     }
 }
