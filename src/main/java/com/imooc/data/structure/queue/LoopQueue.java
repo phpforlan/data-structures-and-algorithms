@@ -100,7 +100,7 @@ public class LoopQueue<E> implements Queue<E> {
             }
         }
 
-        res.append("]");
+        res.append("] tail");
 
         return res.toString();
     }
@@ -140,19 +140,23 @@ public class LoopQueue<E> implements Queue<E> {
 
         LoopQueue<Integer> loopQueue = new LoopQueue<>();
 
+        //入队
         for (int i = 0; i < 5; i++) {
             loopQueue.enqueue(i);
             System.out.println(loopQueue);
         }
 
         System.out.println("start dequeue...");
-        loopQueue.dequeue();
-        System.out.println(loopQueue);
 
-        for (int j = 0; j < 7; j++) {
-            loopQueue.enqueue(j);
+        //出队
+        for (int i = 0; i < 5; i++) {
+            loopQueue.dequeue();
+            System.out.println(loopQueue);
         }
-        System.out.println(loopQueue);
+
+        System.out.println(loopQueue.front);
+        System.out.println(loopQueue.tail);
+        System.out.println(loopQueue.size);
 
     }
 }
