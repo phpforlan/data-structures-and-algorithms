@@ -43,18 +43,93 @@ public class LoopQueue<E> implements Queue<E> {
         return front == tail;
     }
 
+    /**
+     * 入队
+     *
+     * @param e
+     */
     @Override
     public void enqueue(E e) {
 
+        //校验队列是否已满
+        if ((tail + 1) % data.length == front) {
+            throw new IllegalArgumentException("queue is full, size:" + size + "capacity:" + getCapacity());
+        }
+
+        data[tail] = e;
+        tail = (tail + 1) % data.length;
+        size++;
     }
 
+
+    /**
+     * 出队
+     *
+     * @return
+     */
     @Override
     public E dequeue() {
-        return null;
+
+        //校验队列是否为空
+        if (isEmpty()) {
+            throw new IllegalArgumentException("queue is empty");
+        }
+
+        E element = data[front];
+
+        data[front] = null;
+        front = (front + 1) % data.length; //front向前移动一位
+        size--;
+
+        return element;
     }
 
+
+    @Override
+    public String toString() {
+
+        StringBuilder res = new StringBuilder();
+        res.append("queue top [");
+
+        for (int i = front; i < tail; i++) {
+            res.append(i);
+
+            if (i != tail - 1) {
+                res.append(", ");
+            }
+        }
+
+        res.append("] tail");
+
+        return res.toString();
+    }
+
+
+    /**
+     * 获取队首元素
+     *
+     * @return
+     */
     @Override
     public E getFront() {
-        return null;
+        return data[front];
+    }
+
+    public static void main(String[] args) {
+
+        LoopQueue<Integer> loopQueue = new LoopQueue<>();
+
+        for (int i = 0; i < 5; i++) {
+            loopQueue.enqueue(i);
+            System.out.println(loopQueue);
+        }
+
+        System.out.println("start dequeue...");
+
+        for (int j = 0; j < 5; j++) {
+            loopQueue.dequeue();
+            System.out.println(loopQueue);
+        }
+
     }
 }
