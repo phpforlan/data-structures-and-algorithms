@@ -95,7 +95,7 @@ public class LinkedList<E> {
         Node node = head;
         for (int i = 0; i < size; i++) {
 
-            res.append(node.toString());
+            res.append(node);
 
             node = node.next;
 
