@@ -6,8 +6,7 @@ public class main {
 
     public static void main(String[] args) {
 
-        Integer num = 3;
-        System.out.println(num.toString());
+
     }
 
 }

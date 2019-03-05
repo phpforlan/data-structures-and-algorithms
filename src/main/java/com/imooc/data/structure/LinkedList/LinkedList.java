@@ -46,8 +46,8 @@ public class LinkedList<E> {
     public void addFirst(E e) {
 
         Node node = new Node(e);
-        head = node.next;
-        node = head;
+        node.next = head;
+        head = node;
 
         size++;
     }
@@ -86,11 +86,37 @@ public class LinkedList<E> {
         add(size, e);
     }
 
+    @Override
+    public String toString() {
+
+        StringBuilder res = new StringBuilder();
+        res.append("LinkedList head [");
+
+        Node node = head;
+        for (int i = 0; i < size; i++) {
+
+            res.append(node.toString());
+
+            node = node.next;
+
+            if (i != size - 1) { //非最后一个节点
+                res.append(", ");
+            }
+        }
+
+        res.append("] tail");
+
+        return res.toString();
+    }
+
 
     public static void main(String[] args) {
 
         LinkedList<Integer> linkedList = new LinkedList<>();
-        linkedList.addFirst(0);
+
+        for (int i = 0; i < 5; i++) {
+            linkedList.addFirst(i);
+        }
 
         System.out.println(linkedList);
     }
