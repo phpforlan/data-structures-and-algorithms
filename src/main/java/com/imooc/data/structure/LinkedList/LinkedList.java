@@ -70,11 +70,11 @@ public class LinkedList<E> {
             }
 
             Node node = new Node(e);
-            pre.next = node.next;
-            node = pre.next;
-        }
+            node.next = pre.next;
+            pre.next = node;
 
-        size++;
+            size++;
+        }
     }
 
     /**
@@ -115,8 +115,11 @@ public class LinkedList<E> {
         LinkedList<Integer> linkedList = new LinkedList<>();
 
         for (int i = 0; i < 5; i++) {
-            linkedList.addFirst(i);
+            linkedList.add(0, i);
         }
+
+        linkedList.add(1, 66);
+        linkedList.addLast(100);
 
         System.out.println(linkedList);
     }
