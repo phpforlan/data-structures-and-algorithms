@@ -5,30 +5,23 @@ package com.imooc.data.structure.LinkedList;
  */
 public class LinkedList<E> {
 
-    private Node head = null;
-
-    private Integer size = 0; //链表中node节点的数量
-
-
     //Node节点定义
     private class Node {
 
-        E e;
-        Node next;
-
-        public Node() {
-            e = null;
-            next = null;
-        }
-
-        public Node(E e) {
-            this.e = e;
-            next = null;
-        }
+        public E e;
+        public Node next;
 
         public Node(E e, Node next) {
             this.e = e;
             this.next = next;
+        }
+
+        public Node(E e) {
+            this(e, null);
+        }
+
+        public Node() {
+            this(null, null);
         }
 
         @Override
@@ -36,6 +29,21 @@ public class LinkedList<E> {
 
             return e.toString();
         }
+    }
+
+    private Node head = null;
+
+    private Integer size = 0; //链表中node节点的数量
+
+
+    //获取链表中节点的个数
+    public int getSize() {
+        return size;
+    }
+
+    //链表是否为空
+    public boolean isEmpty() {
+        return size == 0;
     }
 
     /**
@@ -49,29 +57,37 @@ public class LinkedList<E> {
         node.next = head;
         head = node;
 
+        //等同于
+        //head = new Node(e, head);
+
         size++;
     }
 
     /**
-     * 在链表指定索引index位置插入节点
+     * 在链表指定索引index(0-based)位置插入节点
      *
      * @param index
      * @param e
      */
     public void add(Integer index, E e) {
 
-        if (index == 0) {
+        //校验index合法性
+        if (index < 0 || index > size) {
+            throw new IllegalArgumentException("add failed, Illegal index.");
+        }
+
+        if (index == 0) { //要插入位置没有前置节点prev
             addFirst(e);
         } else {
 
-            Node pre = head; //index的前一个元素
+            Node prev = head; //index的前一个元素
             for (int i = 0; i < index - 1; i++) {
-                pre = pre.next;
+                prev = prev.next;
             }
 
             Node node = new Node(e);
-            node.next = pre.next;
-            pre.next = node;
+            node.next = prev.next;
+            prev.next = node;
 
             size++;
         }
