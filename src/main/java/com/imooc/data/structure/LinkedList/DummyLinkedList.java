@@ -159,12 +159,11 @@ public class DummyLinkedList<E> {
             prev = prev.next;
         }
 
-        Node tmp = prev.next.next;
-        Node ret = prev.next;
-        prev.next = null;
-        prev.next = tmp;
+        Node delNode = prev.next;
+        prev.next = delNode.next;
+        delNode.next = null;
 
-        return ret.e;
+        return delNode.e;
     }
 
 
