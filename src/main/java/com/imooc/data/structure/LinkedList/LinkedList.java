@@ -47,7 +47,7 @@ public class LinkedList<E> {
         return size;
     }
 
-    public boolean isEmpty() {
+    public Boolean isEmpty() {
         return size == 0;
     }
 
