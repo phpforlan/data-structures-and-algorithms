@@ -37,6 +37,11 @@ public class LinkedList<E> {
     private Node head; //头节点
     private Integer size; //链表中节点的数量
 
+    public LinkedList() {
+        head = null;
+        size = 0;
+    }
+
 
     public Integer getSize() {
         return size;
@@ -196,6 +201,35 @@ public class LinkedList<E> {
         prev.next = tmp;
 
         return ret.e;
+    }
+
+    @Override
+    public String toString() {
+
+        StringBuilder res = new StringBuilder();
+        res.append("Linked List: ");
+
+        Node cur = head;
+        while (cur != null) {
+            res.append(cur.e + "->");
+            cur = cur.next;
+        }
+
+        res.append("NULL");
+
+        return res.toString();
+    }
+
+    public static void main(String[] args) {
+
+        LinkedList<Integer> linkedList = new LinkedList<>();
+
+        for (int i = 0; i < 5; i++) {
+            linkedList.addFirst(i);
+        }
+
+        System.out.println(linkedList);
+
     }
 
 }
