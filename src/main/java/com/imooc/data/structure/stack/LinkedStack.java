@@ -79,5 +79,7 @@ public class LinkedStack<E> implements Stack<E> {
 
         linkedStack.pop();
         System.out.println(linkedStack);
+
+        System.out.println(linkedStack.peek());
     }
 }
