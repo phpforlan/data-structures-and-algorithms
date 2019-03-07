@@ -163,6 +163,8 @@ public class DummyLinkedList<E> {
         prev.next = delNode.next;
         delNode.next = null;
 
+        size--;
+
         return delNode.e;
     }
 

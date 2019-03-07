@@ -38,7 +38,6 @@ public class LinkedStack<E> implements Stack<E> {
      */
     @Override
     public E pop() {
-
         return dummyLinkedList.removeFirst();
     }
 
@@ -76,6 +75,9 @@ public class LinkedStack<E> implements Stack<E> {
             linkedStack.push(i);
         }
 
+        System.out.println(linkedStack);
+
+        linkedStack.pop();
         System.out.println(linkedStack);
     }
 }
