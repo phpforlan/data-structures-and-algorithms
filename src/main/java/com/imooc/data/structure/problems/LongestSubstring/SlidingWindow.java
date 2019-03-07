@@ -36,7 +36,7 @@ public class SlidingWindow {
         int begin = 0;
         int end = 0;
 
-        HashSet<Character> hashSet = new HashSet<>(); //不重复元素的个数，也就是最长子串
+        HashSet<Character> hashSet = new HashSet<>();
         int maxLength = 0;
         while (begin < length && end < length) {
 
