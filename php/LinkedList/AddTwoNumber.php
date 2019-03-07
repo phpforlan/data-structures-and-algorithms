@@ -63,7 +63,7 @@ class AddTwoNumber
             $cur = $cur->next;
 
             //更新进位
-            $carry = $sum / 10;
+            $carry = intval($sum / 10);
 
             $cur1 = $cur1->next;
             $cur2 = $cur2->next;
