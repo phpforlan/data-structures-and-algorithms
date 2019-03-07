@@ -119,6 +119,17 @@ public class DummyLinkedList<E> {
 
 
     /**
+     * 获取链表头部元素
+     *
+     * @return
+     */
+    public E getFirst() {
+
+        return get(0);
+    }
+
+
+    /**
      * 修改链表指定索引的节点数据
      *
      * @param index

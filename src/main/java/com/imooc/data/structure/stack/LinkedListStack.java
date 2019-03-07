@@ -5,7 +5,7 @@ import com.imooc.data.structure.LinkedList.DummyLinkedList;
 /**
  * 用链表实现栈
  */
-public class LinkedStack<E> implements Stack<E> {
+public class LinkedListStack<E> implements Stack<E> {
 
     private DummyLinkedList<E> dummyLinkedList = new DummyLinkedList<>();
 
@@ -49,7 +49,7 @@ public class LinkedStack<E> implements Stack<E> {
      */
     @Override
     public E peek() {
-        return dummyLinkedList.get(0);
+        return dummyLinkedList.getFirst();
     }
 
     @Override
@@ -69,17 +69,18 @@ public class LinkedStack<E> implements Stack<E> {
     }
 
     public static void main(String[] args) {
-        LinkedStack<Integer> linkedStack = new LinkedStack<>();
+
+        LinkedListStack<Integer> linkedListStack = new LinkedListStack<>();
 
         for (int i = 0; i < 5; i++) {
-            linkedStack.push(i);
+            linkedListStack.push(i);
         }
 
-        System.out.println(linkedStack);
+        System.out.println(linkedListStack);
 
-        linkedStack.pop();
-        System.out.println(linkedStack);
+        linkedListStack.pop();
+        System.out.println(linkedListStack);
 
-        System.out.println(linkedStack.peek());
+        System.out.println(linkedListStack.peek());
     }
 }
