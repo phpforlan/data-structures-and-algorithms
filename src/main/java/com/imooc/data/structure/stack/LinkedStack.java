@@ -11,7 +11,7 @@ public class LinkedStack<E> implements Stack<E> {
 
     @Override
     public int getSize() {
-        return dummyLinkedList.size;
+        return dummyLinkedList.getSize();
     }
 
     @Override

@@ -32,8 +32,8 @@ public class DummyLinkedList<E> {
         }
     }
 
-    public Node dummyHead; //虚拟头结点
-    public Integer size;
+    private Node dummyHead; //虚拟头结点
+    private Integer size;
 
     public DummyLinkedList() {
 
