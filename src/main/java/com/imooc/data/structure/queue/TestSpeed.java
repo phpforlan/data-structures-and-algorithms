@@ -18,6 +18,11 @@ public class TestSpeed {
         Double time2 = testQueue(loopQueue, opCount);
         System.out.println("LoopQueue consume " + time2 + "s");
 
+        //linkedListQueue的耗时
+        LinkedListQueue<Integer> linkedListQueue = new LinkedListQueue<>();
+        Double time3 = testQueue(linkedListQueue, opCount);
+        System.out.println("LinkedListQueue consume " + time3 + "s");
+
     }
 
 

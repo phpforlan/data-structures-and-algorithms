@@ -145,8 +145,6 @@ public class LinkedListQueue<E> implements Queue<E> {
             System.out.println("dequeue: " + linkedListQueue);
         }
 
-        linkedListQueue.getFront();
-
 
     }
 }
