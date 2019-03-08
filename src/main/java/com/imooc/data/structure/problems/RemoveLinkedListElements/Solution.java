@@ -24,6 +24,13 @@ class ListNode {
 
 public class Solution {
 
+    /**
+     * //1->2->6->3->4->5->6
+     *
+     * @param head
+     * @param val
+     * @return
+     */
     public ListNode removeElements(ListNode head, int val) {
 
         ListNode dummyHead = new ListNode(-1); //虚拟头结点
@@ -31,16 +38,16 @@ public class Solution {
 
         //开始遍历
         ListNode prev = dummyHead;
-        while (prev != null) {
+        while (prev.next != null) {
 
             if (prev.next.val == val) {
 
                 ListNode delNode = prev.next;
                 prev.next = delNode.next;
                 delNode.next = null;
+            } else {
+                prev = prev.next;
             }
-
-            prev = prev.next;
         }
 
         return dummyHead.next;
