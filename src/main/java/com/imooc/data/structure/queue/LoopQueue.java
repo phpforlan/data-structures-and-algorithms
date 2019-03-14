@@ -145,6 +145,11 @@ public class LoopQueue<E> implements Queue<E> {
             System.out.println(loopQueue);
         }
 
+        for (int j = 0; j < 15; j++) {
+            loopQueue.dequeue();
+            System.out.println(loopQueue);
+        }
+
     }
 
 }
