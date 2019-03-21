@@ -15,6 +15,10 @@ public class BubbleSort {
      */
     public int[] sort(int[] nums) {
 
+        if (nums.length <= 1) {
+            return nums;
+        }
+
         int len = nums.length;
 
         for (int i = 0; i < len - 1; i++) { //比较轮数
@@ -41,6 +45,10 @@ public class BubbleSort {
      * @return
      */
     public int[] sort2(int[] nums) {
+
+        if (nums.length <= 1) {
+            return nums;
+        }
 
         int len = nums.length;
 
