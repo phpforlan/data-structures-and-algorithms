@@ -12,7 +12,7 @@ import java.util.List;
 public class QuickSort {
 
     /**
-     * 从小到大排序
+     * 从小到大排序(另外开辟了空间来实现)
      *
      * @param nums
      * @return
