@@ -1,6 +1,5 @@
 package com.imooc.data.structure.sort;
 
-import com.imooc.data.structure.array.Array;
 
 import java.util.Arrays;
 
@@ -9,50 +8,36 @@ import java.util.Arrays;
  */
 public class QuickSort2 {
 
-    public int[] sort(int[] nums) {
+    /**
+     * 从小到大排序
+     *
+     * @param nums
+     * @param low  起始位置索引
+     * @param high 结束位置索引
+     * @return
+     */
+    public void sort(int[] nums, int low, int high) {
 
-        int len = nums.length;
+        int i = low;
+        int j = high;
+        int middle = nums[low];
 
-        if (len <= 1) {
-            return nums;
-        }
+        while (i < j) {
 
-        int middle = nums[0];
-
-        outterLoop:
-        for (int j = len - 1; j > 0; j--) { //从后往前
-
-            if (nums[j] < middle) {
-
-                for (int i = 0; i < len; i++) {
-                    if (nums[i] > middle) { //交换
-
-                        if (i < j) {
-                            int tmp = nums[i];
-                            nums[i] = nums[j];
-                            nums[j] = tmp;
-                            System.out.println(i);
-                            System.out.println(j);
-                            System.out.println(Arrays.toString(nums));
-                            System.out.println("-----");
-                            break;
-                        } else {
-                            nums[0] = nums[j];
-                            nums[j] = middle;
-                            break outterLoop;
-                        }
-                    }
-                }
-
+            while (i < j && nums[j] > middle) { //从后往前，只要nums[j] > middle，则继续前移
+                j--;
             }
+
+            nums[low] = nums[j];
+
+            while (i < j && nums[i] <= middle) {
+                i++;
+            }
+
+
         }
 
 
-
-
-        //System.out.println(Arrays.toString(nums));
-
-        return nums;
     }
 
 
@@ -61,7 +46,7 @@ public class QuickSort2 {
         int[] nums = new int[]{10, 12, 8, 3, 90};
 
         QuickSort2 quickSort2 = new QuickSort2();
-        quickSort2.sort(nums);
+        quickSort2.sort(nums, 0, nums.length - 1);
 
         System.out.println(Arrays.toString(nums));
     }
