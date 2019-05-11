@@ -12,16 +12,17 @@ class CalBuy
 
     /**
      * 计算从起始价格，根据指定次数挂单的方法(保证亏损不超过10%) 多单的情况
-     * @param $startPrice string 起始价格
+     * @param $currentAveragePrice string 当前仓位均价
+     * @param $currentNum int 当前仓位总张数
      * @param $batchNum int 购买总批次
      */
-    public function run($startPrice, $batchNum)
+    public function run($currentAveragePrice, $currentNum, $batchNum)
     {
         //假定第一张购买价格为$startPrice，购买张数为1张
         $arr = [
             [
-                'price' => $startPrice,
-                'num'   => 1
+                'price' => $currentAveragePrice,
+                'num'   => $currentNum
             ]
         ];
 
@@ -102,7 +103,10 @@ class CalBuy
      */
     public function test()
     {
-        $this->run(79.06, 10);
+        $currentAveragePrice = 84.88;
+        $currentNum = 16;
+
+        $this->run($currentAveragePrice, $currentNum, 10);
     }
 
 }
