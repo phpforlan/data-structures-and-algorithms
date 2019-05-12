@@ -135,7 +135,7 @@ class CalBuy
     {
         $currentAveragePrice = 197; //当前仓位均价
         $currentNum = 1; //当前仓位张数
-        $batchNum = 6; //需要购买的批次
+        $batchNum = 5; //需要购买的批次
         $multiple = 10; //默认10倍 10/20
 
         //500块，能开100张。一张5块钱。
