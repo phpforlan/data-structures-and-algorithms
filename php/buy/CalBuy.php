@@ -35,8 +35,8 @@ class CalBuy
 
             //1.假定市场价格相对于均价亏损了20%，则计算新均价，才能保证只亏损10%
             $marketPrice = round($averagePrice * (1 - ($multiple == 10 ? 0.02 : 0.01)), 2);
-            
-            //新均价 $lossRate = ($newAveragePrice - $marketPrice) / $newAveragePrice;
+
+            //核心:新均价，保证亏损不能超过10% $lossRate = ($newAveragePrice - $marketPrice) / $newAveragePrice;
             $lossRate = 0.1 / $multiple; //新亏损率
             $newAveragePrice = round($marketPrice / (1 - $lossRate), 2);
 
@@ -133,9 +133,9 @@ class CalBuy
      */
     public function test()
     {
-        $currentAveragePrice = 191.5; //当前仓位均价
+        $currentAveragePrice = 197; //当前仓位均价
         $currentNum = 1; //当前仓位张数
-        $batchNum = 10; //需要购买的批次
+        $batchNum = 6; //需要购买的批次
         $multiple = 10; //默认10倍 10/20
 
         //500块，能开100张。一张5块钱。
