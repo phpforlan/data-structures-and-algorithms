@@ -15,8 +15,9 @@ class CalBuy
      * @param $currentAveragePrice string 当前仓位均价
      * @param $currentNum int 当前仓位总张数
      * @param $batchNum int 购买总批次
+     * @param $multiple int 开多倍数
      */
-    public function run($currentAveragePrice, $currentNum, $batchNum)
+    public function run($currentAveragePrice, $currentNum, $batchNum, $multiple)
     {
         //假定第一张购买价格为$startPrice，购买张数为1张
         $arr = [
@@ -32,11 +33,11 @@ class CalBuy
             $averagePrice = $this->calAverage($arr);
             $totalNum = $this->calTotalNum($arr);
 
-            //1.假定价格相对于均价跌了1%，则亏损20%，计算新均价，才能保证只亏损10%
-            $marketPrice = round($averagePrice * (1 - 0.01), 2);
-
+            //1.假定市场价格相对于均价亏损了20%，则计算新均价，才能保证只亏损10%
+            $marketPrice = round($averagePrice * (1 - ($multiple == 10 ? 0.02 : 0.01)), 2);
+            
             //新均价 $lossRate = ($newAveragePrice - $marketPrice) / $newAveragePrice;
-            $lossRate = 0.1 / 20; //新亏损率
+            $lossRate = 0.1 / $multiple; //新亏损率
             $newAveragePrice = round($marketPrice / (1 - $lossRate), 2);
 
             //2.如果需要维持新均价，则需要补充多少张 $newAveragePrice = ($needNum * $marketPrice + $averagePrice * $totalNum) / ($needNum + $totalNum);
@@ -54,14 +55,13 @@ class CalBuy
         //计算累计需要购买的总张数
         $finalTotalNum = $this->calTotalNum($arr);
         //计算购买完所有批次后的跌幅
-        $declineRate = (($currentAveragePrice - array_slice($arr, count($arr) - 1,
-                    1)[0]['price']) / $currentAveragePrice);
+        $endPrice = array_slice($arr, count($arr) - 1, 1)[0]['price'];
+        $declineRate = ($currentAveragePrice - $endPrice) / $currentAveragePrice;
         $declineRate = round($declineRate, 4) * 100;
 
-        echo "\n计算结果已经出来，如下:\n\n";
-        echo "你本次计划购买" . $batchNum . "个批次，所有批次全部购买完毕，累计需要购买" . $finalTotalNum . "张，合计人民币" . $finalTotalNum * 5 . "元。\n\n";
-        echo "同时，从初始价格到" . $batchNum . "个批次购买完毕，跌幅为:" . $declineRate . "%\n\n";
-        echo "所有批次购买计划，见下表:\n";
+        echo "\n你本次计划购买" . $batchNum . "个批次，所有批次全部购买完毕后，累计购买" . $finalTotalNum . "张，合计人民币" . $finalTotalNum * 5 . "元。\n";
+        echo "同时，从初始价格【" . $currentAveragePrice . " USDT】到最后购买价格【" . $endPrice . " USDT】" . "，跌幅为:" . $declineRate . "%\n\n";
+        echo "所有批次购买计划，见下表:\n\n";
 
         $this->showTable($arr);
     }
@@ -78,8 +78,9 @@ class CalBuy
             exit;
         }
 
+        echo " 购买价格     " . "  购买张数\n";
         foreach ($arr as $item) {
-
+            echo $item['price'] . " USDT     " . $item['num'] . "\n";
         }
 
     }
@@ -134,13 +135,14 @@ class CalBuy
     {
         $currentAveragePrice = 191.5; //当前仓位均价
         $currentNum = 1; //当前仓位张数
+        $batchNum = 10; //需要购买的批次
+        $multiple = 10; //默认10倍 10/20
 
         //500块，能开100张。一张5块钱。
-        $this->run($currentAveragePrice, $currentNum, 10); //从初始价格到10次购买后，跌幅达到5%。累计需要1200张，合计6000块。
+        $this->run($currentAveragePrice, $currentNum, $batchNum, $multiple); //从初始价格到10次购买后，跌幅达到5%。累计需要1200张，合计6000块。
     }
 
 }
-
 
 $calBuyObj = new CalBuy();
 $calBuyObj->test();
