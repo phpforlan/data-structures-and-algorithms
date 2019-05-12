@@ -133,8 +133,8 @@ class CalBuy
      */
     public function test()
     {
-        $currentAveragePrice = 197; //当前仓位均价
-        $currentNum = 1; //当前仓位张数
+        $currentAveragePrice = 193.361; //当前仓位均价
+        $currentNum = 8; //当前仓位张数
         $batchNum = 5; //需要购买的批次
         $multiple = 10; //默认10倍 10/20
 
