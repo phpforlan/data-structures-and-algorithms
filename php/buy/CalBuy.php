@@ -41,7 +41,7 @@ class CalBuy
 
             //2.如果需要维持新均价，则需要补充多少张 $newAveragePrice = ($needNum * $marketPrice + $averagePrice * $totalNum) / ($needNum + $totalNum);
             $needNum = ($totalNum * ($averagePrice - $newAveragePrice)) / ($newAveragePrice - $marketPrice);
-            $needNum = floor($needNum);
+            $needNum = ceil($needNum);
 
             //把最新计算结果赋值给策略数组
             $arr[] = [
@@ -103,8 +103,8 @@ class CalBuy
      */
     public function test()
     {
-        $currentAveragePrice = 87.52; //当前仓位均价
-        $currentNum = 21; //当前仓位张数
+        $currentAveragePrice = 184; //当前仓位均价
+        $currentNum = 1; //当前仓位张数
 
         $this->run($currentAveragePrice, $currentNum, 10);
     }
