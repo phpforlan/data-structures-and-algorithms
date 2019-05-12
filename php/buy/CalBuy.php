@@ -103,7 +103,7 @@ class CalBuy
      */
     public function test()
     {
-        $currentAveragePrice = 184; //当前仓位均价
+        $currentAveragePrice = 206.36; //当前仓位均价
         $currentNum = 1; //当前仓位张数
 
         $this->run($currentAveragePrice, $currentNum, 10);
