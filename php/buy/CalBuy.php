@@ -61,7 +61,7 @@ class CalBuy
 
         //todo:这里合计人民币计算是错误的，一张不一定等于5块。(根据倍数不同，价值不同)
         //每张合约的价格 = (仓位总价值 * 倍数) / 10 (如果是比特币，则除以100)
-        echo "\n你本次计划购买" . $batchNum . "个批次，所有批次全部购买完毕后，累计购买" . $finalTotalNum . "张，合计人民币" . $finalTotalNum * 5 . "元。\n";
+        echo "\n你本次计划购买" . $batchNum . "个批次，所有批次全部购买完毕后，累计购买" . $finalTotalNum . "张，合计人民币" . $finalTotalNum * 7 . "元。\n";
         echo "同时，从初始价格【" . $currentAveragePrice . " USDT】到最后购买价格【" . $endPrice . " USDT】" . "，跌幅为:" . $declineRate . "%\n\n";
         echo "所有批次购买计划，见下表:\n\n";
 
@@ -146,12 +146,12 @@ class CalBuy
      */
     public function test()
     {
-        $currentAveragePrice = 210; //当前仓位均价
-        $currentNum = 1; //当前仓位张数
-        $batchNum = 10; //需要购买的批次
+        $currentAveragePrice = 211.988; //当前仓位均价
+        $currentNum = 20; //当前仓位张数
+        $batchNum = 4; //需要购买的批次
         $multiple = 10; //默认10倍 10/20
-        $maxLossRate = 0.15; //能承受的最大亏损率(当亏损率达到该值时，会触发补仓操作。如果发现没有更多资金可补仓，则立刻止损，并发送止损通知)
-        $supplyLossRate = 0.09; //补仓亏损率(每次补仓完成后的仓位亏损率)
+        $maxLossRate = 0.2; //能承受的最大亏损率(当亏损率达到该值时，会触发补仓操作。如果发现没有更多资金可补仓，则立刻止损，并发送止损通知)
+        $supplyLossRate = 0.11; //补仓亏损率(每次补仓完成后的仓位亏损率)
 
         //500块，能开100张。一张5块钱。
         $this->run($currentAveragePrice, $currentNum, $batchNum, $multiple,
