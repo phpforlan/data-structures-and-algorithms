@@ -148,7 +148,7 @@ class CalBuy
     {
         $currentAveragePrice = 210; //当前仓位均价
         $currentNum = 1; //当前仓位张数
-        $batchNum = 7; //需要购买的批次
+        $batchNum = 10; //需要购买的批次
         $multiple = 10; //默认10倍 10/20
         $maxLossRate = 0.15; //能承受的最大亏损率(当亏损率达到该值时，会触发补仓操作。如果发现没有更多资金可补仓，则立刻止损，并发送止损通知)
         $supplyLossRate = 0.09; //补仓亏损率(每次补仓完成后的仓位亏损率)
