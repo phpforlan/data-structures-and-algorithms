@@ -16,8 +16,9 @@ class CalBuy
      * @param $currentNum int 当前仓位总张数
      * @param $batchNum int 购买总批次
      * @param $multiple int 开多倍数
+     * @param $maxLossRate float 能承受的最大亏损率(取值0-1)
      */
-    public function run($currentAveragePrice, $currentNum, $batchNum, $multiple)
+    public function run($currentAveragePrice, $currentNum, $batchNum, $multiple, $maxLossRate)
     {
         //假定第一张购买价格为$startPrice，购买张数为1张
         $arr = [
@@ -33,8 +34,8 @@ class CalBuy
             $averagePrice = $this->calAverage($arr);
             $totalNum = $this->calTotalNum($arr);
 
-            //1.假定市场价格相对于均价亏损了20%，则计算新均价，才能保证只亏损10%
-            $marketPrice = round($averagePrice * (1 - ($multiple == 10 ? 0.02 : 0.01)), 2);
+            //1.计算当亏损率达到$maxLossRate时的市场价格
+            $marketPrice = round($averagePrice * (1 - ($maxLossRate / $multiple)), 2);
 
             //核心:新均价，保证亏损不能超过10% $lossRate = ($newAveragePrice - $marketPrice) / $newAveragePrice;
             $lossRate = 0.1 / $multiple; //新亏损率
@@ -137,9 +138,11 @@ class CalBuy
         $currentNum = 8; //当前仓位张数
         $batchNum = 5; //需要购买的批次
         $multiple = 10; //默认10倍 10/20
+        $maxLossRate = 0.15; //能承受的最大亏损率(当亏损率达到该值时，会触发补仓操作。如果发现没有更多资金可补仓，则立刻止损，并发送止损通知)
 
         //500块，能开100张。一张5块钱。
-        $this->run($currentAveragePrice, $currentNum, $batchNum, $multiple); //从初始价格到10次购买后，跌幅达到5%。累计需要1200张，合计6000块。
+        $this->run($currentAveragePrice, $currentNum, $batchNum, $multiple,
+            $maxLossRate); //从初始价格到10次购买后，跌幅达到5%。累计需要1200张，合计6000块。
     }
 
 }
