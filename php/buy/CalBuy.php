@@ -17,8 +17,9 @@ class CalBuy
      * @param $batchNum int 购买总批次
      * @param $multiple int 开多倍数
      * @param $maxLossRate float 能承受的最大亏损率(取值0-1)
+     * @param $supplyLossRate float 补仓亏损率(每次补仓完成后的仓位亏损率)
      */
-    public function run($currentAveragePrice, $currentNum, $batchNum, $multiple, $maxLossRate)
+    public function run($currentAveragePrice, $currentNum, $batchNum, $multiple, $maxLossRate, $supplyLossRate)
     {
         //假定第一张购买价格为$startPrice，购买张数为1张
         $arr = [
@@ -34,14 +35,13 @@ class CalBuy
             $averagePrice = $this->calAverage($arr);
             $totalNum = $this->calTotalNum($arr);
 
-            //1.计算当亏损率达到$maxLossRate时的市场价格
+            //1.计算当亏损率达到可承受最大亏损率$maxLossRate时的市场价格
             $marketPrice = round($averagePrice * (1 - ($maxLossRate / $multiple)), 2);
 
-            //核心:新均价，保证亏损不能超过10% $lossRate = ($newAveragePrice - $marketPrice) / $newAveragePrice;
-            $lossRate = 0.1 / $multiple; //新亏损率
-            $newAveragePrice = round($marketPrice / (1 - $lossRate), 2);
+            //2.核心:新均价，确保补仓后，亏损不能超过补仓亏损率$supplyLossRate
+            $newAveragePrice = round($marketPrice / (1 - $supplyLossRate / $multiple), 2);
 
-            //2.如果需要维持新均价，则需要补充多少张 $newAveragePrice = ($needNum * $marketPrice + $averagePrice * $totalNum) / ($needNum + $totalNum);
+            //3.如果需要维持新均价，则需要补充多少张 $newAveragePrice = ($needNum * $marketPrice + $averagePrice * $totalNum) / ($needNum + $totalNum);
             $needNum = ($totalNum * ($averagePrice - $newAveragePrice)) / ($newAveragePrice - $marketPrice);
             $needNum = ceil($needNum);
 
@@ -50,7 +50,6 @@ class CalBuy
                 'price' => $marketPrice,
                 'num'   => $needNum
             ];
-
         }
 
         //计算累计需要购买的总张数
@@ -139,10 +138,11 @@ class CalBuy
         $batchNum = 5; //需要购买的批次
         $multiple = 10; //默认10倍 10/20
         $maxLossRate = 0.15; //能承受的最大亏损率(当亏损率达到该值时，会触发补仓操作。如果发现没有更多资金可补仓，则立刻止损，并发送止损通知)
+        $supplyLossRate = 0.1; //补仓亏损率(每次补仓完成后的仓位亏损率)
 
         //500块，能开100张。一张5块钱。
         $this->run($currentAveragePrice, $currentNum, $batchNum, $multiple,
-            $maxLossRate); //从初始价格到10次购买后，跌幅达到5%。累计需要1200张，合计6000块。
+            $maxLossRate, $supplyLossRate); //从初始价格到10次购买后，跌幅达到5%。累计需要1200张，合计6000块。
     }
 
 }
