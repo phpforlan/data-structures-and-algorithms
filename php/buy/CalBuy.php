@@ -59,6 +59,7 @@ class CalBuy
         $declineRate = ($currentAveragePrice - $endPrice) / $currentAveragePrice;
         $declineRate = round($declineRate, 4) * 100;
 
+        //todo:这里合计人民币计算是错误的，一张不一定等于5块。(根据倍数不同，价值不同)
         echo "\n你本次计划购买" . $batchNum . "个批次，所有批次全部购买完毕后，累计购买" . $finalTotalNum . "张，合计人民币" . $finalTotalNum * 5 . "元。\n";
         echo "同时，从初始价格【" . $currentAveragePrice . " USDT】到最后购买价格【" . $endPrice . " USDT】" . "，跌幅为:" . $declineRate . "%\n\n";
         echo "所有批次购买计划，见下表:\n\n";
