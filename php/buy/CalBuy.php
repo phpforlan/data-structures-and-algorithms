@@ -71,7 +71,7 @@ class CalBuy
         $declineRate = round(($currentAveragePrice - $endPrice) / $currentAveragePrice, 4) * 100;
 
 
-        echo "\n你本次计划购买" . $batchNum . "个批次，所有批次全部购买完毕后，累计购买" . $finalTotalNum . "张，合计人民币" . $finalCostAmount . "元。\n";
+        echo "\n你本次计划购买" . $batchNum . "个批次，当亏损率达到" . ($maxLossRate * 100) . "%时，会立刻进行补仓，使亏损率降低到" . ($supplyLossRate * 100) . "%，" . "所有批次购买完毕后，累计购买" . $finalTotalNum . "张，合计人民币" . $finalCostAmount . "元。\n";
         echo "同时，从初始价格【" . $currentAveragePrice . " USDT】到最后购买价格【" . $endPrice . " USDT】" . "，跌幅为:" . $declineRate . "%\n\n";
         echo "所有批次购买计划，见下表:\n\n";
 
