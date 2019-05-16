@@ -167,7 +167,7 @@ class CalBuy
         $currentAveragePrice = 7900; //当前仓位均价
         $currentNum = 1; //当前仓位张数
         $batchNum = 5; //购买总批次
-        $multiple = 20; //默认10倍 10/20
+        $multiple = 10; //默认10倍 10/20
         $maxLossRate = 0.2; //能承受的最大亏损率(当亏损率达到该值时，会触发补仓操作。如果发现没有更多资金可补仓，则立刻止损，并发送止损通知)
         $supplyLossRate = 0.1; //补仓亏损率(每次补仓完成后的仓位亏损率)
         $isBtc = true; //是否是比特币
