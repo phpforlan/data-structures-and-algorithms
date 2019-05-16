@@ -80,7 +80,7 @@ class CalBuy
 
 
     /**
-     * 获取单张合约的价值(单位:元)
+     * 获取单张合约的价值(单位:元) 汇率取值7
      * @param $multiple
      * @param $isBtc
      * @return mixed
