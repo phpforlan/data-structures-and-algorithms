@@ -164,12 +164,12 @@ class CalBuy
      */
     public function test()
     {
-        $currentAveragePrice = 267.65; //当前仓位均价
-        $currentNum = 82; //当前仓位张数
-        $batchNum = 7; //购买总批次
+        $currentAveragePrice = 7800; //当前仓位均价
+        $currentNum = 20; //当前仓位张数
+        $batchNum = 10; //购买总批次
         $multiple = 10; //默认10倍 10/20
-        $maxLossRate = 0.23; //能承受的最大亏损率(当亏损率达到该值时，会触发补仓操作。如果发现没有更多资金可补仓，则立刻止损，并发送止损通知)
-        $supplyLossRate = 0.11; //补仓亏损率(每次补仓完成后的仓位亏损率)
+        $maxLossRate = 0.2; //能承受的最大亏损率(当亏损率达到该值时，会触发补仓操作。如果发现没有更多资金可补仓，则立刻止损，并发送止损通知)
+        $supplyLossRate = 0.1; //补仓亏损率(每次补仓完成后的仓位亏损率)
         $isBtc = false; //是否是比特币
 
         $this->doHigher($currentAveragePrice, $currentNum, $batchNum, $multiple, $maxLossRate, $supplyLossRate,
