@@ -80,6 +80,67 @@ class CalBuy
 
 
     /**
+     * 计算从当前仓位，根据指定批次挂单的方法，在达到最大亏损率的时候，自动补仓到补仓亏损率的位置(做空的情况)
+     * @param $currentAveragePrice string 当前仓位均价
+     * @param $currentNum int 当前仓位总张数
+     * @param $batchNum int 购买总批次
+     * @param $multiple int 开多倍数
+     * @param $maxLossRate float 能承受的最大亏损率(取值0-1)
+     * @param $supplyLossRate float 补仓亏损率(每次补仓完成后的仓位亏损率,取值0-1)
+     */
+    public function doLower($currentAveragePrice, $currentNum, $batchNum, $multiple, $maxLossRate, $supplyLossRate)
+    {
+        //构造当前仓位数组
+        $arr = [
+            [
+                'price' => $currentAveragePrice,
+                'num'   => $currentNum
+            ]
+        ];
+
+        for ($i = 2; $i <= $batchNum; $i++) {
+
+            //计算当前购买均价
+            $averagePrice = $this->calAverage($arr);
+
+            //1.计算当亏损率达到可承受最大亏损率$maxLossRate时的市场价格
+            $marketPrice = round($averagePrice * (1 + ($maxLossRate / $multiple)), 2);
+
+            //2.核心:新均价，确保补仓后，亏损不能超过补仓亏损率$supplyLossRate
+            $newAveragePrice = round(($marketPrice * $multiple) / ($supplyLossRate + $multiple), 2);
+
+            //3.计算如果需要维持新均价，则需要以$marketPrice的价格购买多少张来补仓
+            $totalNum = $this->calTotalNum($arr);
+            $needNum = ($totalNum * ($averagePrice - $newAveragePrice)) / ($newAveragePrice - $marketPrice);
+            $needNum = ceil($needNum);
+
+            //把最新批次结果赋值给仓位数组
+            $arr[] = [
+                'price' => $marketPrice,
+                'num'   => $needNum
+            ];
+        }
+
+        //计算累计需要购买的总张数
+        $finalTotalNum = $this->calTotalNum($arr);
+
+        //计算购买完所有批次后，需要花费的金额(单位:元)
+        $finalCostAmount = $finalTotalNum * $this->getSinglePieceRmb($multiple, false);
+
+        //计算购买完所有批次后的跌幅
+        $endPrice = array_slice($arr, count($arr) - 1, 1)[0]['price'];
+        $declineRate = round(($endPrice - $currentAveragePrice) / $currentAveragePrice, 4) * 100;
+
+
+        echo "\n你本次计划购买" . $batchNum . "个批次，当亏损率达到" . ($maxLossRate * 100) . "%时，会立刻进行补仓，使亏损率降低到" . ($supplyLossRate * 100) . "%，" . "所有批次购买完毕后，累计购买" . $finalTotalNum . "张，合计人民币" . $finalCostAmount . "元。\n";
+        echo "同时，从初始价格【" . $currentAveragePrice . " USDT】到最后购买价格【" . $endPrice . " USDT】" . "，涨幅为:" . $declineRate . "%\n\n";
+        echo "所有批次购买计划，见下表:\n\n";
+
+        $this->showTable($arr);
+    }
+
+
+    /**
      * 获取单张合约的价值(单位:元) 汇率取值7
      * @param $multiple
      * @param $isBtc
@@ -89,11 +150,11 @@ class CalBuy
     {
         if ($isBtc) { //btc的情况，10倍时，1张=70元 20倍时，35元
 
-            return $multiple == 10 ? 70 : 35;
+            return (100 / $multiple) * 7;
 
         } else { //非btc的情况，10倍时，1张=7元 20倍时，1张=3.5元
 
-            return $multiple == 10 ? 7 : 3.5;
+            return (10 / $multiple) * 7;
         }
     }
 
@@ -160,23 +221,42 @@ class CalBuy
 
 
     /**
-     * 测试方法
+     * 测试做多
      */
-    public function test()
+    public function testHigher()
     {
-        $currentAveragePrice = 8927; //当前仓位均价
-        $currentNum = 26; //当前仓位张数
+        //测试做多
+        $currentAveragePrice = 7979; //当前仓位均价
+        $currentNum = 31; //当前仓位张数
         $batchNum = 4; //购买总批次
-        $multiple = 10; //默认10倍 10/20
-        $maxLossRate = 0.2; //能承受的最大亏损率(当亏损率达到该值时，会触发补仓操作。如果发现没有更多资金可补仓，则立刻止损，并发送止损通知)
-        $supplyLossRate = 0.1; //补仓亏损率(每次补仓完成后的仓位亏损率)
+        $multiple = 20; //默认10倍 10/20
+        $maxLossRate = 0.4; //能承受的最大亏损率(当亏损率达到该值时，会触发补仓操作。如果发现没有更多资金可补仓，则立刻止损，并发送止损通知)
+        $supplyLossRate = 0.2; //补仓亏损率(每次补仓完成后的仓位亏损率)
         $isBtc = true; //是否是比特币
 
         $this->doHigher($currentAveragePrice, $currentNum, $batchNum, $multiple, $maxLossRate, $supplyLossRate,
             $isBtc); //做多
     }
 
+
+    /**
+     * 测试做空
+     */
+    public function testLower()
+    {
+        $currentAveragePrice = 140; //当前仓位均价
+        $currentNum = 50; //当前仓位张数
+        $batchNum = 5; //计划购买的总批次
+        $multiple = 3; //开空倍数
+        $maxLossRate = 0.4; //能承受的最大亏损率(当亏损率达到该值时，会触发补仓操作。如果发现没有更多资金可补仓，则立刻止损，并发送止损通知)
+        $supplyLossRate = 0.2; //补仓亏损率(每次补仓完成后的仓位亏损率)
+
+        $this->doLower($currentAveragePrice, $currentNum, $batchNum, $multiple, $maxLossRate, $supplyLossRate);
+    }
+
+
 }
 
 $calBuyObj = new CalBuy();
-$calBuyObj->test();
+//$calBuyObj->testHigher();
+$calBuyObj->testLower();
